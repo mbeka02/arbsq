@@ -1,0 +1,176 @@
+/* ═══════════════════════════════════════════════════ */
+/* ARBSQ — Global Styles                              */
+/* ═══════════════════════════════════════════════════ */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #2C1810;
+}
+::-webkit-scrollbar-thumb {
+    background: #D4A017;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #B8860B;
+}
+
+/* ─── Animations ──────────────────────────────────── */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.stagger-1  { animation-delay: 0.1s; }
+.stagger-2  { animation-delay: 0.2s; }
+.stagger-3  { animation-delay: 0.3s; }
+.stagger-4  { animation-delay: 0.4s; }
+.stagger-5  { animation-delay: 0.5s; }
+.stagger-6  { animation-delay: 0.6s; }
+
+/* ─── Card hover effect ──────────────────────────── */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(44, 24, 16, 0.15);
+}
+
+/* ─── Glass effects ──────────────────────────────── */
+.glass {
+    background: rgba(255, 253, 245, 0.80);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.glass-dark {
+    background: rgba(44, 24, 16, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Coming soon badge ──────────────────────────── */
+.coming-soon-badge {
+    background: linear-gradient(135deg, #D4A017, #B8860B);
+    color: #fff;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ─── Nav link underline animation ───────────────── */
+.nav-link {
+    position: relative;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #D4A017;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ─── Section title decorative line ──────────────── */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #D4A017, #B8860B);
+    margin: 12px auto 0;
+    border-radius: 2px;
+}
+
+/* ─── Icon container glow on hover ───────────────── */
+.icon-glow {
+    transition: all 0.3s ease;
+}
+.project-card:hover .icon-glow {
+    filter: drop-shadow(0 0 8px rgba(212, 160, 23, 0.5));
+}
+
+/* ─── Mobile menu transition ─────────────────────── */
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+.mobile-menu.open {
+    max-height: 320px;
+}
+
+/* ─── Form input focus ───────────────────────────── */
+.subscribe-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.3);
+}
+
+/* ─── Tutorial card accent ───────────────────────── */
+.tutorial-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.tutorial-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(44, 24, 16, 0.15);
+}
+.tutorial-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #D4A017, #B8860B);
+}
