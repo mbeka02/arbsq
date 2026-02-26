@@ -186,16 +186,6 @@ html {
 }
 
 .tutorial-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(44, 24, 16, 0.15);
-}
-
-.tutorial-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, #D4A017, #B8860B);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(44, 24, 16, 0.08);
 }
