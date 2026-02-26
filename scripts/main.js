@@ -1,11 +1,6 @@
-// ═══════════════════════════════════════════════════
-// ARBSQ — Main JavaScript
-// ═══════════════════════════════════════════════════
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ─── Mobile menu toggle ──────────────────────────
-    const mobileBtn  = document.getElementById('mobileMenuBtn');
+    const mobileBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
     mobileBtn.addEventListener('click', () => {
@@ -19,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ─── Navbar shadow on scroll ─────────────────────
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 10) {
@@ -29,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ─── Scroll-triggered fade-in animation ──────────
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -45,13 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(card);
     });
 
-    // ─── Subscribe form (placeholder) ────────────────
     const subscribeForm = document.getElementById('subscribeForm');
-    subscribeForm.addEventListener('submit', function(e) {
+    subscribeForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const email   = document.getElementById('subscribeEmail').value;
+        const email = document.getElementById('subscribeEmail').value;
         const success = document.getElementById('subscribeSuccess');
-        // Placeholder — integrate Mailchimp here
+        //TODO: integrate Mailchimp
         console.log('Subscribe:', email);
         success.classList.remove('hidden');
         this.querySelector('button').textContent = 'Subscribed!';
