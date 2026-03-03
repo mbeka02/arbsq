@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARBSQ — Language Learning & Processing Platform</title>
+    <meta name="description"
+        content="ARBSQ is a platform for language learning and processing, specializing in Arabic NLP tools, syntactic parsers, alignment systems, and educational resources.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: { DEFAULT: '#2D2D2D', light: '#3D3D3D', dark: '#1E1E1E' },
+                        'warm-white': '#FAF7F2',
+                        sand: { DEFAULT: '#D4C5A9', light: '#E8DFD0', dark: '#B8A88C' },
+                        terracotta: { DEFAULT: '#C0563B', dark: '#A04530', light: '#D4725A' },
+                        stone: '#8B7D6B',
+                    },
+                    fontFamily: {
+                        'display': ['Lora', 'serif'],
+                        'body': ['Work Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2D2D2D;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #C0563B;
+            border-radius: 3px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .anim-up {
+            animation: fadeUp .7s ease-out forwards;
+            opacity: 0;
+        }
+
+        .anim-float {
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .d1 {
+            animation-delay: .1s
+        }
+
+        .d2 {
+            animation-delay: .2s
+        }
+
+        .d3 {
+            animation-delay: .3s
+        }
+
+        .d4 {
+            animation-delay: .4s
+        }
+
+        .d5 {
+            animation-delay: .5s
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #C0563B;
+            transition: width .3s, left .3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .tool-card {
+            transition: border-color .25s, box-shadow .25s;
+        }
+
+        .tool-card:hover {
+            border-color: #C0563B;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+        }
+
+        .coming-badge {
+            font-size: .55rem;
+            letter-spacing: .07em;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s;
+        }
+
+        .mobile-menu.open {
+            max-height: 300px;
+        }
+
+        .res-card {
+            transition: border-color .25s;
+        }
+
+        .res-card:hover {
+            border-color: #C0563B;
+        }
+
+        .tut-item {
+            transition: border-color .2s;
+        }
+
+        .tut-item:hover {
+            border-color: #C0563B;
+        }
+    </style>
+</head>
+
+<body class="font-body text-charcoal bg-warm-white">
+
+    <!-- NAV -->
+    <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-shadow"
+        style="background: url('images/menu_bg.jpg') repeat-x center; background-size: auto 100%;">
+        <div class="absolute inset-0 bg-charcoal/60"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+            <a href="#hero" class="flex items-center gap-2.5">
+                <img src="images/logo.png" alt="ARBSQ" class="h-9 w-auto">
+                <span class="font-display text-xl font-bold text-sand tracking-wide">ARBSQ</span>
+            </a>
+            <div class="hidden md:flex gap-8">
+                <a href="#tools"
+                    class="nav-link text-sand-light hover:text-terracotta-light text-sm font-medium tracking-wide transition-colors">Tools</a>
+                <a href="#tools"
+                    class="nav-link text-sand-light hover:text-terracotta-light text-sm font-medium tracking-wide transition-colors">Projects</a>
+                <a href="#research"
+                    class="nav-link text-sand-light hover:text-terracotta-light text-sm font-medium tracking-wide transition-colors">Research</a>
+                <a href="#tutorials"
+                    class="nav-link text-sand-light hover:text-terracotta-light text-sm font-medium tracking-wide transition-colors">Tutorials</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-sand-light hover:text-terracotta-light transition-colors"
+                aria-label="Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div id="mobileMenu" class="mobile-menu md:hidden relative px-4">
+            <div class="pb-4 space-y-2">
+                <a href="#tools" class="block text-sand-light hover:text-terracotta-light text-sm py-2">Tools</a>
+                <a href="#tools" class="block text-sand-light hover:text-terracotta-light text-sm py-2">Projects</a>
+                <a href="#research" class="block text-sand-light hover:text-terracotta-light text-sm py-2">Research</a>
+                <a href="#tutorials"
+                    class="block text-sand-light hover:text-terracotta-light text-sm py-2">Tutorials</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-14"
+        style="background: url('images/bg.jpg') repeat center; background-size: cover;">
+        <div class="absolute inset-0 bg-warm-white/20"></div>
+        <div class="relative text-center px-4 max-w-3xl mx-auto">
+            <div class="anim-up d1 mb-8">
+                <img src="images/logo.png" alt="ARBSQ Logo" class="mx-auto h-44 sm:h-56 w-auto anim-float">
+            </div>
+            <h1
+                class="anim-up d2 font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-charcoal mb-4 tracking-tight">
+                ARBSQ</h1>
+            <p class="anim-up d3 text-sm font-semibold uppercase tracking-[.25em] text-terracotta mb-6">Language
+                Learning & Processing</p>
+            <p class="anim-up d4 text-lg text-stone max-w-xl mx-auto leading-relaxed mb-10">
+                A platform for <span class="text-charcoal font-semibold">language learning</span> and
+                <span class="text-charcoal font-semibold">processing.</span> Explore our tools, projects,
+                and research specializing in Arabic and computational linguistics.
+            </p>
+            <a href="#tools"
+                class="anim-up d5 inline-flex items-center gap-2 px-7 py-3.5 bg-terracotta hover:bg-terracotta-dark text-white font-semibold rounded-xl transition-colors active:scale-95">
+                Explore Tools
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- PROJECTS & TOOLS -->
+    <section id="tools" class="relative py-20 sm:py-28"
+        style="background: url('images/bg.jpg') repeat center; background-size: cover;">
+        <div class="absolute inset-0 bg-warm-white/88"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-charcoal">Projects & Tools</h2>
+                <div class="w-12 h-0.5 bg-terracotta mx-auto mt-4"></div>
+                <p class="mt-5 text-stone max-w-lg mx-auto">Our growing suite of tools for language analysis,
+                    translation, and learning.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                <!-- Active tools -->
+                <a href="#" class="tool-card bg-white rounded-2xl p-6 border border-sand block group">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-terracotta/10 border border-terracotta/20 flex items-center justify-center text-terracotta">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9 9 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3
+                                class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                                Country Name Translation & Sorting</h3>
+                            <p class="mt-1 text-sm text-stone">Translate and sort country names across multiple
+                                languages.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="tool-card bg-white rounded-2xl p-6 border border-sand block group">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-terracotta/10 border border-terracotta/20 flex items-center justify-center text-terracotta">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3
+                                class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                                Constituency | Dependency Syntactic Parser</h3>
+                            <p class="mt-1 text-sm text-stone">Parse sentence structures with constituency and
+                                dependency analysis.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="tool-card bg-white rounded-2xl p-6 border border-sand block group">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-terracotta/10 border border-terracotta/20 flex items-center justify-center text-terracotta">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3
+                                class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                                Canvas Sentence Alignment</h3>
+                            <p class="mt-1 text-sm text-stone">Visually align parallel sentences in a bitext alignment
+                                system.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Coming Soon -->
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Arabic NLP Tool</h3><span
+                                    class="coming-badge bg-terracotta text-white font-bold uppercase">Coming Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Advanced natural language processing for Arabic text.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Speech-Text (STAR) Aligner</h3>
+                                <span class="coming-badge bg-terracotta text-white font-bold uppercase">Coming
+                                    Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Align audio recordings with transcribed text for
+                                research.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Phoneme Recognizer</h3><span
+                                    class="coming-badge bg-terracotta text-white font-bold uppercase">Coming Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Phoneme-level recognition for language learning
+                                support.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Terminology Extraction Tool</h3>
+                                <span class="coming-badge bg-terracotta text-white font-bold uppercase">Coming
+                                    Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Extract domain-specific terminology from large
+                                corpora.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Terminology Collaboration</h3><span
+                                    class="coming-badge bg-terracotta text-white font-bold uppercase">Coming Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Collaborate with peers on terminology management.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Translation with Templates</h3>
+                                <span class="coming-badge bg-terracotta text-white font-bold uppercase">Coming
+                                    Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Template-based translation workflows for efficiency.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card bg-white/60 rounded-2xl p-6 border border-sand/60 opacity-70">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 rounded-xl bg-sand/20 border border-sand/40 flex items-center justify-center text-stone">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-semibold text-charcoal">Translation QA Tool</h3><span
+                                    class="coming-badge bg-terracotta text-white font-bold uppercase">Coming Soon</span>
+                            </div>
+                            <p class="mt-1 text-sm text-stone/70">Quality assurance checks for translation accuracy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="py-20 sm:py-28 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-warm-white">Current Research</h2>
+                <div class="w-12 h-0.5 bg-terracotta mx-auto mt-4"></div>
+                <p class="mt-5 text-sand-dark max-w-lg mx-auto">Active areas of research in language processing and
+                    computational linguistics.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="res-card rounded-2xl p-7 text-center border-2 border-charcoal-light bg-charcoal-light/50">
+                    <div
+                        class="w-14 h-14 mx-auto rounded-2xl border-2 border-terracotta/30 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-terracotta" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-warm-white mb-1">Parsing</h3>
+                    <p class="text-sm text-sand-dark">Syntactic and semantic parsing for natural language understanding.
+                    </p>
+                </div>
+                <div class="res-card rounded-2xl p-7 text-center border-2 border-charcoal-light bg-charcoal-light/50">
+                    <div
+                        class="w-14 h-14 mx-auto rounded-2xl border-2 border-terracotta/30 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-terracotta" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-warm-white mb-1">Arabic NLP</h3>
+                    <p class="text-sm text-sand-dark">NLP tailored for Arabic morphology and syntax.</p>
+                </div>
+                <div class="res-card rounded-2xl p-7 text-center border-2 border-charcoal-light bg-charcoal-light/50">
+                    <div
+                        class="w-14 h-14 mx-auto rounded-2xl border-2 border-terracotta/30 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-terracotta" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-warm-white mb-1">Small Language Models</h3>
+                    <p class="text-sm text-sand-dark">Compact models for on-device and low-resource tasks.</p>
+                </div>
+                <div class="res-card rounded-2xl p-7 text-center border-2 border-charcoal-light bg-charcoal-light/50">
+                    <div
+                        class="w-14 h-14 mx-auto rounded-2xl border-2 border-terracotta/30 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-terracotta" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-warm-white mb-1">Speech</h3>
+                    <p class="text-sm text-sand-dark">Speech recognition, synthesis, and audio-text alignment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TUTORIALS -->
+    <section id="tutorials" class="py-20 sm:py-28 bg-warm-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-charcoal">Tutorials, Articles & Videos</h2>
+                <div class="w-12 h-0.5 bg-terracotta mx-auto mt-4"></div>
+                <p class="mt-5 text-stone max-w-lg mx-auto">Resources on translation, NLP, and computational
+                    linguistics.</p>
+            </div>
+            <div class="space-y-3">
+                <a href="#" class="tut-item flex items-center gap-5 p-5 rounded-xl border border-sand bg-white group">
+                    <span
+                        class="flex-shrink-0 font-display text-2xl font-bold text-terracotta/40 w-8 text-center">1</span>
+                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-terracotta/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-terracotta" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3
+                            class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                            Tutorial on Computer Aided Translation Tools</h3>
+                        <p class="text-sm text-stone mt-0.5">An introduction to using Trados and Multiterm for
+                            professional translation work.</p>
+                    </div>
+                    <span
+                        class="hidden sm:inline-block text-[0.6rem] font-bold uppercase tracking-wider text-terracotta border border-terracotta/20 px-3 py-1 rounded-full">Tutorial</span>
+                </a>
+                <a href="#" class="tut-item flex items-center gap-5 p-5 rounded-xl border border-sand bg-white group">
+                    <span
+                        class="flex-shrink-0 font-display text-2xl font-bold text-terracotta/40 w-8 text-center">2</span>
+                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-terracotta/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-terracotta" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3
+                            class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                            Video on Trados MultiTerm Termbase Creation</h3>
+                        <p class="text-sm text-stone mt-0.5">Step-by-step video walkthrough of creating a termbase in
+                            SDL MultiTerm.</p>
+                    </div>
+                    <span
+                        class="hidden sm:inline-block text-[0.6rem] font-bold uppercase tracking-wider text-terracotta border border-terracotta/20 px-3 py-1 rounded-full">Video</span>
+                </a>
+                <a href="#" class="tut-item flex items-center gap-5 p-5 rounded-xl border border-sand bg-white group">
+                    <span
+                        class="flex-shrink-0 font-display text-2xl font-bold text-terracotta/40 w-8 text-center">3</span>
+                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-terracotta/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-terracotta" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3
+                            class="font-display font-semibold text-charcoal group-hover:text-terracotta transition-colors">
+                            Article on Arabic Morphological Analysis</h3>
+                        <p class="text-sm text-stone mt-0.5">Exploring challenges and approaches to morphological
+                            analysis in Arabic.</p>
+                    </div>
+                    <span
+                        class="hidden sm:inline-block text-[0.6rem] font-bold uppercase tracking-wider text-terracotta border border-terracotta/20 px-3 py-1 rounded-full">Article</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-14" style="background: url('images/menu_bg.jpg') repeat-x center; background-size: auto 100%;">
+        <div class="absolute inset-0"></div>
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" style="position:relative;">
+            <div class="text-center mb-8">
+                <h2 class="font-display text-2xl font-bold text-warm-white mb-2">Stay Updated</h2>
+                <p class="text-sand-dark text-sm max-w-md mx-auto">Follow us on social media and subscribe for new
+                    tools, research, and tutorials.</p>
+            </div>
+            <div class="flex justify-center gap-4 mb-8">
+                <a href="#"
+                    class="w-10 h-10 rounded-full border border-sand-dark/40 flex items-center justify-center text-sand hover:text-terracotta hover:border-terracotta/40 transition-colors"
+                    aria-label="X">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 rounded-full border border-sand-dark/40 flex items-center justify-center text-sand hover:text-terracotta hover:border-terracotta/40 transition-colors"
+                    aria-label="GitHub">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 rounded-full border border-sand-dark/40 flex items-center justify-center text-sand hover:text-terracotta hover:border-terracotta/40 transition-colors"
+                    aria-label="LinkedIn">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 rounded-full border border-sand-dark/40 flex items-center justify-center text-sand hover:text-terracotta hover:border-terracotta/40 transition-colors"
+                    aria-label="YouTube">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                </a>
+            </div>
+            <form id="subscribeForm" class="max-w-md mx-auto mb-10">
+                <div class="flex gap-2">
+                    <input type="email" id="subscribeEmail" placeholder="Enter your email for updates" required
+                        class="flex-1 bg-charcoal/60 border border-sand-dark/30 rounded-xl px-4 py-3 text-sm text-warm-white placeholder-sand-dark/60 focus:outline-none focus:border-terracotta/40 transition-colors">
+                    <button type="submit"
+                        class="px-6 py-3 bg-terracotta hover:bg-terracotta-dark text-white text-sm font-bold rounded-xl transition-colors active:scale-95">Subscribe</button>
+                </div>
+                <p id="subscribeSuccess" class="hidden text-center mt-3 text-terracotta-light text-sm">✓ Thanks! We'll
+                    keep you posted.</p>
+            </form>
+            <div
+                class="border-t border-sand-dark/20 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sand-dark/60">
+                <p id="copyright"></p>
+                <p>Developed by <a href="#"
+                        class="text-terracotta-light hover:text-terracotta transition-colors">Hussein Ghaly</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+            mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('shadow-lg', window.scrollY > 10);
+                navbar.classList.toggle('shadow-black/10', window.scrollY > 10);
+            });
+
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('anim-up'); obs.unobserve(e.target); } });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.tool-card, .res-card, .tut-item').forEach((c, i) => {
+                c.style.animationDelay = `${i * .06}s`;
+                c.style.opacity = '0';
+                obs.observe(c);
+            });
+
+            const form = document.getElementById('subscribeForm');
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                //TODO: integrate Mailchimp
+                console.log('Subscribe:', document.getElementById('subscribeEmail').value);
+                document.getElementById('subscribeSuccess').classList.remove('hidden');
+                this.querySelector('button').textContent = 'Subscribed!';
+                this.querySelector('button').disabled = true;
+                this.querySelector('button').classList.add('opacity-60', 'cursor-not-allowed');
+            });
+
+            document.getElementById('copyright').textContent = `© ${new Date().getFullYear()} ARBSQ. All rights reserved.`;
+        });
+    </script>
+</body>
+
+</html>
